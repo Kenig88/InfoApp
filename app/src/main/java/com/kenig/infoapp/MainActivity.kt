@@ -8,10 +8,13 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import com.kenig.infoapp.ui.component.DrawerMenu
 import com.kenig.infoapp.ui.component.Header
 import com.kenig.infoapp.ui.component.MainTopBar
 import com.kenig.infoapp.ui.theme.InfoAppTheme
+import com.kenig.infoapp.ui.utils.DrawerEvents
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -20,9 +23,11 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             val scaffoldState = rememberScaffoldState() //с помощью этого открывается Drawer
+            val coroutineScope = rememberCoroutineScope()
             val topBarTitle = remember{
                 mutableStateOf("Грибы")
             }
+
             InfoAppTheme {
                 Scaffold(
                     scaffoldState = scaffoldState,
@@ -33,7 +38,16 @@ class MainActivity : ComponentActivity() {
                         )
                     },
                     drawerContent = {
-                        DrawerMenu()
+                        DrawerMenu(){ event ->
+                            when(event) {
+                                is DrawerEvents.OnItemClick -> {
+                                    topBarTitle.value = event.title
+                                }
+                            }
+                            coroutineScope.launch{
+                                scaffoldState.drawerState.close()
+                            }
+                        }
                     }
                 ) {
 

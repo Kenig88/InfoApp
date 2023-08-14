@@ -27,9 +27,10 @@ import com.kenig.infoapp.R
 import com.kenig.infoapp.ui.theme.BgTransparent
 import com.kenig.infoapp.ui.theme.InfoAppTheme
 import com.kenig.infoapp.ui.theme.Red500
+import com.kenig.infoapp.ui.utils.DrawerEvents
 
 @Composable
-fun DrawerMenu() {
+fun DrawerMenu(onEvent: (DrawerEvents) -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -41,7 +42,9 @@ fun DrawerMenu() {
         )
         Column {
             Header()
-            Body()
+            Body(){ event ->
+                onEvent(event)
+            }
         }
     }
 }
@@ -82,9 +85,8 @@ fun Header() {
     }
 }
 
-@Preview
 @Composable
-fun Body() {
+fun Body(onEvent: (DrawerEvents) -> Unit) {
     val list = stringArrayResource(R.array.drawer_list)
 
     LazyColumn(
@@ -104,7 +106,7 @@ fun Body() {
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-
+                            onEvent(DrawerEvents.OnItemClick(title, index))
                         }
                         .padding(10.dp)
                         .wrapContentWidth()
