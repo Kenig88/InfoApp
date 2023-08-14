@@ -1,43 +1,47 @@
 package com.kenig.infoapp
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.material.Scaffold
+import androidx.compose.material.rememberScaffoldState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import com.kenig.infoapp.ui.component.DrawerMenu
+import com.kenig.infoapp.ui.component.Header
+import com.kenig.infoapp.ui.component.MainTopBar
 import com.kenig.infoapp.ui.theme.InfoAppTheme
 
 class MainActivity : ComponentActivity() {
+    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
+            val scaffoldState = rememberScaffoldState() //с помощью этого открывается Drawer
+            val topBarTitle = remember{
+                mutableStateOf("Грибы")
+            }
             InfoAppTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
+                Scaffold(
+                    scaffoldState = scaffoldState,
+                    topBar = {
+                        MainTopBar(
+                            title = topBarTitle.value,
+                            scaffoldState = scaffoldState
+                        )
+                    },
+                    drawerContent = {
+                        DrawerMenu()
+                    }
                 ) {
-                    Greeting("Android")
+
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    InfoAppTheme {
-        Greeting("Android")
-    }
-}
+
