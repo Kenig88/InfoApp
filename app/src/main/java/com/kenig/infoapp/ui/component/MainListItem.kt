@@ -4,6 +4,7 @@ import android.graphics.BitmapFactory
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -23,14 +24,18 @@ import com.kenig.infoapp.ui.theme.Red500
 import com.kenig.infoapp.utils.ListItem
 
 @Composable
-fun MainListItem(item: ListItem) {
+fun MainListItem(item: ListItem, onClick: (ListItem) -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .height(170.dp)
-            .padding(5.dp),
+            .height(250.dp)
+            .padding(5.dp)
+            .clickable {
+                onClick(item)
+            }
+        ,
         shape = RoundedCornerShape(10.dp),
-        border = BorderStroke(2.dp, Red500)
+        border = BorderStroke(1.dp, Red500)
     ) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -38,34 +43,33 @@ fun MainListItem(item: ListItem) {
         ) {
             AssetImage(
                 imageName = item.imageName,
-                contentDescription = item.title
+                contentDescription = item.title,
+                modifier = Modifier.fillMaxSize()
             )
             Text(
                 text = item.title,
-                fontSize = 20.sp,
-                color = Color.White,
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Red500)
-                    .padding(2.dp),
+                    .padding(10.dp),
                 textAlign = TextAlign.Center,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = Color.White
             )
         }
     }
 }
 
 @Composable
-fun AssetImage(imageName: String, contentDescription: String) {
+fun AssetImage(imageName: String, contentDescription: String, modifier: Modifier){
     val context = LocalContext.current
-    val assetManager = context.assets
-    val inputStream = assetManager.open(imageName)
+    val assetManger = context.assets
+    val inputStream = assetManger.open(imageName)
     val bitMap = BitmapFactory.decodeStream(inputStream)
-
     Image(
         bitmap = bitMap.asImageBitmap(),
         contentDescription = contentDescription,
         contentScale = ContentScale.Crop,
-        modifier = Modifier.fillMaxSize()
+        modifier = modifier
     )
 }
