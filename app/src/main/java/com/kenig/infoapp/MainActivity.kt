@@ -11,7 +11,10 @@ import com.kenig.infoapp.ui.component.MainScreen
 import com.kenig.infoapp.ui.theme.InfoAppTheme
 import com.kenig.infoapp.utils.ListItem
 import com.kenig.infoapp.utils.Routes
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
