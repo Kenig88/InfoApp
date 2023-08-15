@@ -1,4 +1,4 @@
-package com.kenig.infoapp.ui.utils
+package com.kenig.infoapp.utils
 
 data class ListItem(
     val title: String,
