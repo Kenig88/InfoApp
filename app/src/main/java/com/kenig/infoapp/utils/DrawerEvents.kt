@@ -1,4 +1,4 @@
-package com.kenig.infoapp.ui.utils
+package com.kenig.infoapp.utils
 
 sealed class DrawerEvents{
     data class OnItemClick(val title: String, val index: Int): DrawerEvents()

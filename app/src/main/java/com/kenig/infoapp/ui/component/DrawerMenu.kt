@@ -20,14 +20,12 @@ import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.kenig.infoapp.R
 import com.kenig.infoapp.ui.theme.BgTransparent
-import com.kenig.infoapp.ui.theme.InfoAppTheme
 import com.kenig.infoapp.ui.theme.Red500
-import com.kenig.infoapp.ui.utils.DrawerEvents
+import com.kenig.infoapp.utils.DrawerEvents
 
 @Composable
 fun DrawerMenu(onEvent: (DrawerEvents) -> Unit) {
@@ -42,7 +40,7 @@ fun DrawerMenu(onEvent: (DrawerEvents) -> Unit) {
         )
         Column {
             Header()
-            Body(){ event ->
+            Body() { event ->
                 onEvent(event)
             }
         }
@@ -117,6 +115,4 @@ fun Body(onEvent: (DrawerEvents) -> Unit) {
             }
         }
     }
-
 }
-
