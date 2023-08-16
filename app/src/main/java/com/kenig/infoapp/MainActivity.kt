@@ -14,6 +14,7 @@ import com.kenig.infoapp.utils.Routes
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
@@ -29,7 +30,7 @@ class MainActivity : ComponentActivity() {
                     startDestination = Routes.MAIN_SCREEN
                 ) {
                     composable(Routes.MAIN_SCREEN) {
-                        MainScreen(context = this@MainActivity) { listItem ->
+                        MainScreen { listItem ->
                             item = listItem
                             navController.navigate(Routes.INFO_SCREEN)
                         }
