@@ -11,7 +11,9 @@ import com.kenig.infoapp.ui.component.MainScreen
 import com.kenig.infoapp.ui.theme.InfoAppTheme
 import com.kenig.infoapp.utils.ListItem
 import com.kenig.infoapp.utils.Routes
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +28,7 @@ class MainActivity : ComponentActivity() {
                     startDestination = Routes.MAIN_SCREEN
                 ) {
                     composable(Routes.MAIN_SCREEN) {
-                        MainScreen(context = this@MainActivity) { listItem ->
+                        MainScreen { listItem ->
                             item = listItem
                             navController.navigate(Routes.INFO_SCREEN)
                         }

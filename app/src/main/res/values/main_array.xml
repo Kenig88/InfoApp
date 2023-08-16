@@ -10,7 +10,7 @@
 
     <string-array name="mushrooms">
         <item>Лисичка|lisichka.png|lisichka.html</item>
-        <item>Мухамор|muhomor.png|muhomor.html</item>
+        <item>Мухомор|muhomor.png|muhomor.html</item>
     </string-array>
 
     <string-array name="medicinal_herbs">

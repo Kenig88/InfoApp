@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.kenig.infoapp.ui.theme.Red500
 import com.kenig.infoapp.utils.ListItem
 
@@ -32,26 +33,38 @@ fun MainListItem(item: ListItem, onClick: (ListItem) -> Unit) {
             .padding(5.dp)
             .clickable {
                 onClick(item)
-            }
-        ,
+            },
         shape = RoundedCornerShape(10.dp),
         border = BorderStroke(1.dp, Red500)
     ) {
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.BottomCenter
+        ConstraintLayout(
+            modifier = Modifier.fillMaxSize()
         ) {
+            val (image, text, favoriteButton) = createRefs()
+
             AssetImage(
                 imageName = item.imageName,
                 contentDescription = item.title,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .constrainAs(image) {
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                        start.linkTo(parent.end)
+                        end.linkTo(parent.end)
+                    }
             )
             Text(
                 text = item.title,
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Red500)
-                    .padding(10.dp),
+                    .padding(10.dp)
+                    .constrainAs(text) {
+                        bottom.linkTo(parent.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                    },
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
                 color = Color.White
@@ -61,7 +74,7 @@ fun MainListItem(item: ListItem, onClick: (ListItem) -> Unit) {
 }
 
 @Composable
-fun AssetImage(imageName: String, contentDescription: String, modifier: Modifier){
+fun AssetImage(imageName: String, contentDescription: String, modifier: Modifier) {
     val context = LocalContext.current
     val assetManger = context.assets
     val inputStream = assetManger.open(imageName)
