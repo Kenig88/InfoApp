@@ -6,10 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kenig.infoapp.MainViewModel
@@ -29,19 +26,23 @@ fun MainScreen(
     val topBarTitle = remember {
         mutableStateOf("Грибы")
     }
-    mainViewModel.getAllItemsByCategory(topBarTitle.value)
-
+    LaunchedEffect(Unit){
+        mainViewModel.getAllItemsByCategory(topBarTitle.value)
+    }
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
             MainTopBar(
                 title = topBarTitle.value,
                 scaffoldState
-            )
+            ){
+                topBarTitle.value = "Избранные"
+                mainViewModel.getFavorites()
+            }
         },
         drawerContent = {
-            DrawerMenu() { event ->
-                when (event) {
+            DrawerMenu(){ event ->
+                when(event){
                     is DrawerEvents.OnItemClick -> {
                         topBarTitle.value = event.title
                         mainViewModel.getAllItemsByCategory(event.title)
@@ -53,9 +54,9 @@ fun MainScreen(
             }
         }
     ) {
-        LazyColumn(modifier = Modifier.fillMaxSize()) {
-            items(mainList.value) { item ->
-                MainListItem(item = item) { listItem ->
+        LazyColumn(modifier = Modifier.fillMaxSize()){
+            items(mainList.value){ item ->
+                MainListItem(item = item){ listItem ->
                     onClick(listItem)
                 }
             }

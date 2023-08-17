@@ -11,5 +11,5 @@ data class ListItem(
     val imageName: String,
     val htmlName: String,
     val category: String,
-    val favorite: Boolean
+    val isFav: Boolean
 )

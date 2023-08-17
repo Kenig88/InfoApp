@@ -7,12 +7,17 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.kenig.infoapp.MainViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun MainTopBar(title: String, scaffoldState: ScaffoldState) {
-    val coroutineScope = rememberCoroutineScope()
-
+fun MainTopBar(
+    title: String,
+    scaffoldState: ScaffoldState,
+    onFavClick: () -> Unit
+) {
+    val coroutine = rememberCoroutineScope()
     TopAppBar(
         title = {
             Text(text = title)
@@ -21,24 +26,27 @@ fun MainTopBar(title: String, scaffoldState: ScaffoldState) {
         navigationIcon = {
             IconButton(
                 onClick = {
-                    coroutineScope.launch {
+                    coroutine.launch {
                         scaffoldState.drawerState.open()
                     }
                 }
             ) {
                 Icon(
-                    Icons.Filled.Menu,
-                    contentDescription = null
+                    imageVector = Icons.Default.Menu,
+                    contentDescription = "Menu"
                 )
             }
         },
         actions = {
             IconButton(
                 onClick = {
-
+                    onFavClick()
                 }
             ) {
-                Icon(Icons.Filled.Favorite, contentDescription = null)
+                Icon(
+                    imageVector = Icons.Default.Favorite,
+                    contentDescription = "Favorite"
+                )
             }
         }
     )
